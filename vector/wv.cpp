@@ -1,4 +1,5 @@
 #include "wv.hpp"
+#include <stdexcept>
 
 namespace W
 {
@@ -24,9 +25,11 @@ size_t wv::capacity() const
 
 void wv::push(int value)
 {
-    if (_size >= _capacity / 2)
+    if (_size >= _capacity)
     {
-        auto tmp = std::make_unique<int[]>((_capacity *= 2));
+        _capacity = _capacity ? _capacity * 2 : 1;
+
+        std::unique_ptr<int[]> tmp(new int[(_capacity)]);
 
         for (size_t i = 0; i < _size; ++i)
         {
@@ -41,21 +44,36 @@ void wv::push(int value)
 
 int wv::pop()
 {
-    int ret = _mem[_size--];
-
-    if (_size <= _capacity / 4)
+    if (!_size)
     {
-        auto tmp = std::make_unique<int[]>((_capacity = _size));
-
-        for (size_t i = 0; i < _size; ++i)
-        {
-            tmp[i] = _mem[i];
-        }
-
-        _mem = std::move(tmp);
+        throw std::out_of_range("");
     }
 
+    int ret = _mem[_size--];
+
+    // TODO: Add resizing!
+
     return ret;
+}
+
+int wv::at(size_t index) const
+{
+    if (index >= _size)
+    {
+        throw std::out_of_range("");
+    }
+
+    return _mem[index];
+}
+
+void wv::insert(size_t index, int value)
+{
+    if (index >= _size)
+    {
+        throw std::out_of_range("");
+    }
+
+    // TODO: continue here...
 }
 
 } // namespace W
