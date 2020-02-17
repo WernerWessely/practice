@@ -27,11 +27,12 @@ public:
     // Insert at beginning.
     void prepend(int value);
     // Remove with index.
-    void remove(int index);
+    void remove(size_t index);
 
 private:
     wv(const wv &other);
     wv operator=(const wv &other);
+    void enlarge();
     std::unique_ptr<int[]> _mem;
     size_t _size = 0;
     size_t _capacity = 0;

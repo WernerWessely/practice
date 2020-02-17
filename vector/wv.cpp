@@ -23,7 +23,7 @@ size_t wv::capacity() const
     return _capacity;
 }
 
-void wv::push(int value)
+void wv::enlarge()
 {
     if (_size >= _capacity)
     {
@@ -38,6 +38,11 @@ void wv::push(int value)
 
         _mem = std::move(tmp);
     }
+}
+
+void wv::push(int value)
+{
+    enlarge();
 
     _mem[_size++] = value;
 }
@@ -73,7 +78,35 @@ void wv::insert(size_t index, int value)
         throw std::out_of_range("");
     }
 
-    // TODO: continue here...
+    enlarge();
+
+    for (auto i = _size; i > index; --i)
+    {
+        _mem[i] = _mem[i - 1];
+    }
+
+    ++_size;
+    _mem[index] = value;
+}
+
+void wv::prepend(int value)
+{
+    insert(0, value);
+}
+
+void wv::remove(size_t index)
+{
+    if (index >= _size)
+    {
+        throw std::out_of_range("");
+    }
+
+    for (auto i = index + 1; i < _size; ++i)
+    {
+        _mem[i - 1] = _mem[i];
+    }
+
+    --_size;
 }
 
 } // namespace W
