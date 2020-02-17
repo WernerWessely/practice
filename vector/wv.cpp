@@ -24,17 +24,38 @@ size_t wv::capacity() const
 
 void wv::push(int value)
 {
-    realloc();
-}
-
-void wv::realloc()
-{
     if (_size >= _capacity / 2)
     {
+        auto tmp = std::make_unique<int[]>((_capacity *= 2));
+
+        for (size_t i = 0; i < _size; ++i)
+        {
+            tmp[i] = _mem[i];
+        }
+
+        _mem = std::move(tmp);
     }
-    else if (_size <= _capacity / 4)
+
+    _mem[_size++] = value;
+}
+
+int wv::pop()
+{
+    int ret = _mem[_size--];
+
+    if (_size <= _capacity / 4)
     {
+        auto tmp = std::make_unique<int[]>((_capacity = _size));
+
+        for (size_t i = 0; i < _size; ++i)
+        {
+            tmp[i] = _mem[i];
+        }
+
+        _mem = std::move(tmp);
     }
+
+    return ret;
 }
 
 } // namespace W
