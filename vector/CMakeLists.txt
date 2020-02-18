@@ -1,10 +1,18 @@
 cmake_minimum_required(VERSION 3.0)
-project(vector)
 
-add_definitions(-std=c++11)
+set(TARGET_NAME ut)
+project(${TARGET_NAME})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_DEBUG")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_BUILD_TYPE Debug)
 
-set(SOURCE_FILES ut.cpp wv.cpp)
-add_executable(ut ${SOURCE_FILES})
-target_include_directories(ut PRIVATE ../catch2)
+add_executable(${TARGET_NAME} wv.cpp ut.cpp)
+
+target_include_directories(${TARGET_NAME} PRIVATE ../catch2)
+
+if(MSVC)
+  target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX)
+else()
+  target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
+endif()

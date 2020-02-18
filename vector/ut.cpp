@@ -24,6 +24,23 @@ TEST_CASE("Test the size() function.", "[base]")
         v.push(1);
         REQUIRE(2 == v.size());
     }
+
+    SECTION("size() down to 1.")
+    {
+        v.push(1);
+        v.push(1);
+        v.pop();
+        REQUIRE(1 == v.size());
+    }
+
+    SECTION("size() down to 0.")
+    {
+        v.push(1);
+        v.push(1);
+        v.pop();
+        v.pop();
+        REQUIRE(0 == v.size());
+    }
 }
 
 TEST_CASE("Test the empty() function.", "[base]")
