@@ -6,6 +6,9 @@ namespace W
 class slist
 {
 public:
+    slist() = default;
+    ~slist();
+
     slist(const slist &other) = delete;
     slist &operator=(const slist &other) = delete;
 
@@ -39,12 +42,14 @@ public:
 private:
     struct snode
     {
+        snode(int val, snode *next) : _val(val),
+                                      _next(next) {}
+
         int _val;
         snode *_next;
     };
 
     snode *_first = nullptr;
-    snode *_last = nullptr;
 };
 } // namespace W
 
