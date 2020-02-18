@@ -18,7 +18,7 @@ size_t slist::len() const
 {
     size_t len = 0;
 
-    for (auto n = _first; !!n; n = n->_next, ++len)
+    for (auto n = _first; n; n = n->_next, ++len)
         ;
 
     return len;
@@ -42,7 +42,7 @@ void slist::append(int value)
     for (; cur && cur->_next; cur = cur->_next)
         ;
 
-    if (!_first)
+    if (!cur)
     {
         _first = n;
     }
@@ -91,6 +91,72 @@ int slist::at(size_t index) const
     }
 
     throw std::out_of_range("");
+}
+
+int slist::front() const
+{
+    if (!_first)
+    {
+        throw std::out_of_range("");
+    }
+
+    return _first->_val;
+}
+
+int slist::back() const
+{
+    auto cur = _first;
+
+    for (; cur && cur->_next; cur = cur->_next)
+        ;
+
+    if (!cur)
+    {
+        throw std::out_of_range("");
+    }
+
+    return cur->_val;
+}
+
+int slist::pop_front()
+{
+    if (!_first)
+    {
+        throw std::out_of_range("");
+    }
+
+    auto ret = _first->_val;
+    auto del = _first;
+
+    _first = _first->_next;
+
+    delete del;
+
+    return ret;
+}
+
+int slist::pop_back()
+{
+    snode *cur = _first, *prev = nullptr;
+
+    for (; cur && cur->_next; prev = cur, cur = cur->_next)
+        ;
+
+    if (!cur)
+    {
+        throw std::out_of_range("");
+    }
+
+    auto ret = cur->_val;
+
+    if (prev)
+    {
+        prev->_next = nullptr;
+    }
+
+    delete cur;
+
+    return ret;
 }
 
 } // namespace W

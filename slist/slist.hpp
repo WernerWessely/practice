@@ -1,6 +1,8 @@
 #ifndef _SLIST_H_
 #define _SLIST_H_
 
+#include <cstddef>
+
 namespace W
 {
 class slist
