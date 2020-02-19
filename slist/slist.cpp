@@ -153,10 +153,93 @@ int slist::pop_back()
     {
         prev->_next = nullptr;
     }
+    else
+    {
+        _first = nullptr;
+    }
 
     delete cur;
 
     return ret;
+}
+
+void slist::remove(size_t index)
+{
+    snode *cur = _first, *prev = nullptr;
+
+    for (size_t len = 0; cur && len < index; prev = cur, cur = cur->_next, ++len)
+        ;
+
+    if (!cur)
+    {
+        throw std::out_of_range("");
+    }
+
+    if (prev)
+    {
+        prev->_next = cur->_next;
+    }
+    else
+    {
+        _first = cur->_next;
+    }
+
+    delete cur;
+}
+
+int slist::backn(size_t n) const
+{
+    size_t l = len();
+
+    if (n >= l)
+    {
+        throw std::out_of_range("");
+    }
+
+    const size_t index = l - n - 1;
+    auto cur = _first;
+
+    for (size_t i = 0; i < index; cur = cur->_next, ++i)
+        ;
+
+    return cur->_val;
+}
+
+int slist::backnr(size_t n) const
+{
+    const snode *cur = _first;
+    size_t l = 0;
+
+    if (cur)
+    {
+        ++l;
+
+        if (cur->_next)
+        {
+            cur = _backnr(++l, n, cur->_next);
+        }
+    }
+
+    if (!cur)
+    {
+        throw std::out_of_range("");
+    }
+
+    return cur->_val;
+}
+
+const W::slist::snode *slist::_backnr(size_t &l, size_t n, const W::slist::snode *node) const
+{
+    auto cur = node;
+
+    if (cur->_next)
+    {
+        cur = _backnr(++l, n, cur->_next);
+    }
+    else
+    {
+        // End.
+    }
 }
 
 } // namespace W

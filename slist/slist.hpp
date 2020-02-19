@@ -36,8 +36,10 @@ public:
     void insert(size_t index, int value);
     // Remove at index.
     void remove(size_t index);
-    // Get reverse nth from end.
-    int rbackn(size_t n) const;
+    // Get reverse nth from end (non-recursive).
+    int backn(size_t n) const;
+    // Get reverse nth from end (recursive).
+    int backnr(size_t n) const;
     // Reverse the list.
     void reverse();
 
@@ -50,6 +52,8 @@ private:
         int _val;
         snode *_next;
     };
+
+    const snode *_backnr(size_t &l, size_t n, const snode *node) const;
 
     snode *_first = nullptr;
 };
