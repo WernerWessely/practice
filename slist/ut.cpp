@@ -23,6 +23,17 @@ TEST_CASE("Test the empty() function.", "[base]")
     }
 }
 
+TEST_CASE("Test the at() function.", "[base]")
+{
+    W::slist l;
+
+    SECTION("Exc for get() on empty.")
+    {
+        REQUIRE_THROWS_AS(l.at(0), std::out_of_range);
+        REQUIRE_THROWS_AS(l.at(1), std::out_of_range);
+    }
+}
+
 TEST_CASE("Test the insert() function.", "[base]")
 {
     W::slist l;
