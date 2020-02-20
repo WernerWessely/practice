@@ -275,13 +275,13 @@ TEST_CASE("Test the backn() function.", "[base]")
         REQUIRE_THROWS_AS(l.backn(2), std::out_of_range);
     }
 
-    SECTION("Exc for backn() on 1")
+    SECTION("backn() on 1")
     {
         l.append(1);
         REQUIRE(1 == l.backn(0));
     }
 
-    SECTION("Exc for backn() on 3")
+    SECTION("backn() on 3")
     {
         l.append(1);
         l.append(2);
@@ -289,5 +289,65 @@ TEST_CASE("Test the backn() function.", "[base]")
         REQUIRE(3 == l.backn(0));
         REQUIRE(2 == l.backn(1));
         REQUIRE(1 == l.backn(2));
+    }
+}
+
+TEST_CASE("Test the backnr() function.", "[base]")
+{
+    W::slist l;
+
+    SECTION("Exc for backnr() on empty")
+    {
+        REQUIRE_THROWS_AS(l.backnr(0), std::out_of_range);
+        REQUIRE_THROWS_AS(l.backnr(1), std::out_of_range);
+    }
+
+    SECTION("Exc for backnr() for 1 on 1")
+    {
+        l.append(1);
+        REQUIRE_THROWS_AS(l.backnr(1), std::out_of_range);
+    }
+
+    SECTION("Exc for backnr() for 2 on 2")
+    {
+        l.append(1);
+        l.append(2);
+        REQUIRE_THROWS_AS(l.backnr(2), std::out_of_range);
+    }
+
+    SECTION("backnr() on 1")
+    {
+        l.append(1);
+        REQUIRE(1 == l.backnr(0));
+    }
+
+    SECTION("backnr() on 2")
+    {
+        l.append(1);
+        l.append(2);
+        REQUIRE(2 == l.backnr(0));
+        REQUIRE(1 == l.backnr(1));
+    }
+
+    SECTION("backnr() on 3")
+    {
+        l.append(1);
+        l.append(2);
+        l.append(3);
+        REQUIRE(3 == l.backnr(0));
+        REQUIRE(2 == l.backnr(1));
+        REQUIRE(1 == l.backnr(2));
+    }
+
+    SECTION("backnr() on 4")
+    {
+        l.append(1);
+        l.append(2);
+        l.append(3);
+        l.append(4);
+        REQUIRE(4 == l.backnr(0));
+        REQUIRE(3 == l.backnr(1));
+        REQUIRE(2 == l.backnr(2));
+        REQUIRE(1 == l.backnr(3));
     }
 }

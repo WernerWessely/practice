@@ -189,7 +189,7 @@ void slist::remove(size_t index)
 
 int slist::backn(size_t n) const
 {
-    size_t l = len();
+    const size_t l = len();
 
     if (n >= l)
     {
@@ -220,26 +220,38 @@ int slist::backnr(size_t n) const
         }
     }
 
-    if (!cur)
+    if (n >= l)
     {
         throw std::out_of_range("");
+    }
+
+    if (!cur)
+    {
+        cur = _first;
     }
 
     return cur->_val;
 }
 
-const W::slist::snode *slist::_backnr(size_t &l, size_t n, const W::slist::snode *node) const
+const slist::snode *slist::_backnr(size_t &l, size_t n, const slist::snode *node) const
 {
-    auto cur = node;
+    const auto cur_len = l;
 
-    if (cur->_next)
+    const snode *const next = node->_next ? _backnr(++l, n, node->_next) : nullptr;
+
+    if (next)
     {
-        cur = _backnr(++l, n, cur->_next);
+        // Already found the one.
+        return next;
     }
-    else
+
+    if (n < l && cur_len == l - n)
     {
-        // End.
+        // This is the one.
+        return node;
     }
+
+    return nullptr;
 }
 
 } // namespace W
