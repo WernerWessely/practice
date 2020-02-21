@@ -109,4 +109,14 @@ void wv::remove(size_t index)
     --_size;
 }
 
+void wv::reverse()
+{
+    size_t i = 0, j = _size ? _size - 1 : 0;
+
+    while (i < j)
+    {
+        std::swap(_mem[i++], _mem[j--]);
+    }
+}
+
 } // namespace W

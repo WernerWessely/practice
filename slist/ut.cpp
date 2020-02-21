@@ -362,3 +362,58 @@ TEST_CASE("Test the backnr() function.", "[base]")
         REQUIRE(1 == l.backnr(3));
     }
 }
+
+TEST_CASE("Test the reverse() function.", "[base]")
+{
+    W::slist l;
+
+    SECTION("reverse() on empty.")
+    {
+        l.reverse();
+        REQUIRE(l.empty());
+    }
+
+    SECTION("reverse() on 1.")
+    {
+        l.append(1);
+        l.reverse();
+        REQUIRE(1 == l.len());
+        REQUIRE(1 == l.at(0));
+    }
+
+    SECTION("reverse() on 2.")
+    {
+        l.append(1);
+        l.append(2);
+        l.reverse();
+        REQUIRE(2 == l.len());
+        REQUIRE(2 == l.at(0));
+        REQUIRE(1 == l.at(1));
+    }
+
+    SECTION("reverse() on 3.")
+    {
+        l.append(1);
+        l.append(2);
+        l.append(3);
+        l.reverse();
+        REQUIRE(3 == l.len());
+        REQUIRE(3 == l.at(0));
+        REQUIRE(2 == l.at(1));
+        REQUIRE(1 == l.at(2));
+    }
+
+    SECTION("reverse() on 4.")
+    {
+        l.append(1);
+        l.append(2);
+        l.append(3);
+        l.append(4);
+        l.reverse();
+        REQUIRE(4 == l.len());
+        REQUIRE(4 == l.at(0));
+        REQUIRE(3 == l.at(1));
+        REQUIRE(2 == l.at(2));
+        REQUIRE(1 == l.at(3));
+    }
+}

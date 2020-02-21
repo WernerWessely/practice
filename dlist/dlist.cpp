@@ -240,4 +240,28 @@ int dlist::_backnr(size_t &i, size_t n, const dnode *node) const
     return i == n ? node->_val : _backnr(++i, n, node->_prev);
 }
 
+void dlist::reverse()
+{
+    dnode *cur = _first ? _first->_next : nullptr;
+
+    while (cur)
+    {
+        cur->_prev->_next = cur->_next;
+
+        if (cur->_next)
+        {
+            cur->_next->_prev = cur->_prev;
+        }
+
+        cur->_next = _first;
+        _first->_prev = cur;
+
+        _first = cur;
+
+        cur = cur->_prev->_next;
+
+        _first->_prev = nullptr;
+    }
+}
+
 } // namespace W

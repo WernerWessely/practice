@@ -254,4 +254,17 @@ const slist::snode *slist::_backnr(size_t &l, size_t n, const slist::snode *node
     return nullptr;
 }
 
+void slist::reverse()
+{
+    snode *prev = _first, *cur = _first ? _first->_next : nullptr;
+
+    while (cur)
+    {
+        prev->_next = cur->_next;
+        cur->_next = _first;
+        _first = cur;
+        cur = prev->_next;
+    }
+}
+
 } // namespace W

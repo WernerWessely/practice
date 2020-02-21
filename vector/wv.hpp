@@ -28,6 +28,8 @@ public:
     void prepend(int value);
     // Remove with index.
     void remove(size_t index);
+    // Reverse the vector.
+    void reverse();
 
 private:
     wv(const wv &other);
