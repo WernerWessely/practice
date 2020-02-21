@@ -14,7 +14,7 @@ bool stack::empty() const
 
 int stack::top() const
 {
-    if (!size)
+    if (!_size)
     {
         throw std::out_of_range("");
     }
@@ -46,7 +46,7 @@ int stack::pop()
         throw std::out_of_range("");
     }
 
-    return _mem[_size--];
+    return _mem[_size-- - 1];
 }
 
 } // namespace W
