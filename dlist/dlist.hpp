@@ -52,7 +52,7 @@ private:
         int _val;
     };
 
-    const dnode *_backnr(size_t &l, size_t n, const dnode *node) const;
+    int _backnr(size_t &i, size_t n, const dnode *node) const;
 
     dnode *_first = nullptr;
     dnode *_last = nullptr;

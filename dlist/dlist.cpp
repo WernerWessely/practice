@@ -3,6 +3,7 @@
 
 namespace W
 {
+
 dlist::~dlist()
 {
     while (_first)
@@ -122,6 +123,121 @@ int dlist::back() const
 
 int dlist::pop_front()
 {
+    const auto del = _first;
+
+    if (del)
+    {
+        _first = del->_next;
+
+        if (_first)
+        {
+            _first->_prev = nullptr;
+        }
+        else
+        {
+            _last = _first;
+        }
+
+        const auto ret = del->_val;
+
+        delete del;
+
+        return ret;
+    }
+
+    throw std::out_of_range("");
+}
+
+int dlist::pop_back()
+{
+    const auto del = _last;
+
+    if (del)
+    {
+        _last = del->_prev;
+
+        if (_last)
+        {
+            _last->_next = nullptr;
+        }
+        else
+        {
+            _first = _last;
+        }
+
+        const auto ret = del->_val;
+
+        delete del;
+
+        return ret;
+    }
+
+    throw std::out_of_range("");
+}
+
+void dlist::remove(size_t index)
+{
+    auto del = _first;
+
+    for (size_t i = 0; i < index && del; del = del->_next, ++i)
+        ;
+
+    if (!del)
+    {
+        throw std::out_of_range("");
+    }
+
+    if (del->_prev)
+    {
+        del->_prev->_next = del->_next;
+    }
+    else
+    {
+        _first = del->_next;
+    }
+
+    if (del->_next)
+    {
+        del->_next->_prev = del->_prev;
+    }
+    else
+    {
+        _last = del->_prev;
+    }
+
+    delete del;
+}
+
+int dlist::backn(size_t n) const
+{
+    const dnode *get = _last;
+
+    for (size_t i = 0; get; get = get->_prev, ++i)
+    {
+        if (i == n)
+        {
+            return get->_val;
+        }
+    }
+
+    throw std::out_of_range("");
+}
+
+int dlist::backnr(size_t n) const
+{
+    size_t i = 0;
+
+    return _backnr(i, n, _last);
+}
+
+int dlist::_backnr(size_t &i, size_t n, const dnode *node) const
+{
+    if (!node)
+    {
+        throw std::out_of_range("");
+    }
+
+    return i == n ? node->_val : _backnr(++i, n, node->_prev);
 }
 
 } // namespace W
