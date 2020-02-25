@@ -28,7 +28,7 @@ void pqueue::push(size_t prio)
     {
         const auto p = (i - 1) / 2; // Parent.
 
-        if (_mem[i] < _mem[p])
+        if (_mem[i] > _mem[p])
         {
             std::swap(_mem[p], _mem[i]);
             i = p;
@@ -57,24 +57,32 @@ size_t pqueue::pop()
     }
 
     _mem.pop_back();
+    s = size();
 
     size_t i = 0;
 
     while (i < s)
     {
-        auto l = i * 2 + 1, r = i * 2 + 2;
+        auto l = i * 2 + 1, r = i * 2 + 2; // Left and right.
 
         if (l < s)
         {
-            auto c = l;
+            auto c = l; // Child to possible swap with
 
             if (r < s && _mem[c] < _mem[r])
             {
                 c = r;
             }
 
-            std::swap(_mem[c], _mem[i]);
-            i = c;
+            if (_mem[i] < _mem[c])
+            {
+                std::swap(_mem[c], _mem[i]);
+                i = c;
+            }
+            else
+            {
+                break;
+            }
         }
         else
         {
