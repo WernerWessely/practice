@@ -24,34 +24,65 @@ void pqueue::push(size_t prio)
 
     size_t i = _mem.size() - 1;
 
-    for (size_t p = (i - 1) / 2; i && _mem[i] < _mem[p]; std::swap(_mem[p], _mem[i]), i = p)
-        ;
+    while (i)
+    {
+        const auto p = (i - 1) / 2; // Parent.
+
+        if (_mem[i] < _mem[p])
+        {
+            std::swap(_mem[p], _mem[i]);
+            i = p;
+        }
+        else
+        {
+            break;
+        }
+    }
 }
 
 size_t pqueue::pop()
 {
-    auto l = _mem.size();
+    auto s = size();
 
-    if (!l)
+    if (!s)
     {
         throw std::out_of_range("");
     }
 
-    auto tmp = _mem[l - 1];
-    _mem.pop_back();
+    auto ret = _mem[0];
 
-    std::swap(tmp, _mem[0]);
+    if (s > 1)
+    {
+        std::swap(_mem[0], _mem[s - 1]);
+    }
+
+    _mem.pop_back();
 
     size_t i = 0;
 
-    while (i < l)
+    while (i < s)
     {
-        size_t l = i * 2 + 1, r = i * 2 + 2;
+        auto l = i * 2 + 1, r = i * 2 + 2;
 
-        size_t c = l < r ? r : l;
+        if (l < s)
+        {
+            auto c = l;
 
-        if ()
+            if (r < s && _mem[c] < _mem[r])
+            {
+                c = r;
+            }
+
+            std::swap(_mem[c], _mem[i]);
+            i = c;
+        }
+        else
+        {
+            break;
+        }
     }
+
+    return ret;
 }
 
 } // namespace W
