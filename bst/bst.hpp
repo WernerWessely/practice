@@ -17,13 +17,13 @@ public:
     bst(const bst &other) = delete;
     bst &operator=(const bst &other) = delete;
 
-    void add(int key, const std::string &val);
+    void add(int key);
     void rem(int key);
 
     size_t size() const;
     size_t depth() const;
 
-    typedef std::vector<std::tuple<int, std::string>> serial;
+    typedef std::vector<int> serial;
 
     //dfs - depth first search:
     //pre-order - nlr
@@ -43,23 +43,22 @@ private:
     typedef std::shared_ptr<bstn> bstnp;
     struct bstn
     {
-        bstn(int key, const std::string &val) : _key(key),
-                                                _val(val),
-                                                _l(nullptr),
-                                                _r(nullptr) {}
+        bstn(int key) : _key(key),
+                        _l(nullptr),
+                        _r(nullptr) {}
         int _key;
-        std::string _val;
         bstnp _l, _r;
     };
 
-    void _depth(const bstnp &n, size_t depth, size_t &mdepth) const;
+    void _info(const bstnp &n, size_t d, size_t &dm, size_t &s) const;
+    void _add(int key);
+    void _radd(bstnp &n, int key);
     void _lnr(const bstnp &n, serial &ser) const;
     void _rnl(const bstnp &n, serial &ser) const;
     void _nlr(const bstnp &n, serial &ser) const;
     void _lrn(const bstnp &n, serial &ser) const;
 
-    bstnp _root;
-    size_t _size;
+    bstnp _root = nullptr;
 };
 } // namespace W
 

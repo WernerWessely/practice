@@ -3,38 +3,104 @@
 namespace W
 {
 
-void bst::_depth(const bstnp &n, size_t depth, size_t &mdepth) const
+void bst::_info(const bstnp &n, size_t d, size_t &dm, size_t &s) const
 {
     if (n)
     {
-        if (++depth > mdepth)
+        ++s;
+
+        if (++d > dm)
         {
-            mdepth = depth;
+            dm = d;
         }
 
-        _depth(n->_l, depth, mdepth);
-        _depth(n->_r, depth, mdepth);
+        _info(n->_l, d, dm, s);
+        _info(n->_r, d, dm, s);
     }
 }
 
 size_t bst::depth() const
 {
-    size_t ret;
+    size_t d = 0, s = 0;
 
-    _depth(_root, 0, ret);
+    _info(_root, 0, d, s);
 
-    return ret;
+    return d;
 }
 
-void bst::_lnr(const bstnp &n, serial &ser) const
+size_t bst::size() const
+{
+    size_t d = 0, s = 0;
+
+    _info(_root, 0, d, s);
+
+    return s;
+}
+
+void bst::add(int key)
+{
+    if (key % 2)
+    {
+        _add(key);
+    }
+    else
+    {
+        _radd(_root, key);
+    }
+}
+
+void bst::_radd(bstnp &n, int key)
+{
+    if (!n)
+    {
+        n.reset(new bstn(key));
+    }
+    else if (key == n->_key)
+    {
+        throw std::out_of_range("");
+    }
+    else
+    {
+        _radd(key < n->_key ? n->_l : n->_r, key);
+    }
+}
+
+void bst::_add(int key)
+{
+    bstnp *dst = &_root;
+
+    while (*dst)
+    {
+        if ((*dst)->_key == key)
+        {
+            throw std::out_of_range("");
+        }
+
+        dst = key < (*dst)->_key ? &(*dst)->_l : &(*dst)->_r;
+    }
+
+    dst->reset(new bstn(key));
+
+    if (!_root)
+    {
+        _root = *dst;
+    }
+}
+
+void bst::nlr(serial &ser) const
+{
+    _nlr(_root, ser);
+}
+
+void bst::_nlr(const bstnp &n, serial &ser) const
 {
     if (n)
     {
-        _lnr(n->_l, ser);
+        ser.push_back(n->_key);
 
-        ser.push_back(std::tuple<int, std::string>(n->_key, n->_val));
+        _nlr(n->_l, ser);
 
-        _lnr(n->_r, ser);
+        _nlr(n->_r, ser);
     }
 }
 
@@ -43,51 +109,50 @@ void bst::lnr(serial &ser) const
     _lnr(_root, ser);
 }
 
-void bst::add(int key, const std::string &val)
+void bst::_lnr(const bstnp &n, serial &ser) const
 {
-    bstnp cur = _root;
-
-    while (cur)
+    if (n)
     {
-        if (key < cur->_key)
-        {
-            if (cur->_l)
-            {
-                cur = cur->_l;
-            }
-            else
-            {
-                cur->_l.reset(new bstn(key, val));
-                ++_size;
-                break;
-            }
-        }
-        else if (key > cur->_key)
-        {
-            if (cur->_r)
-            {
-                cur = cur->_r;
-            }
-            else
-            {
-                cur->_r.reset(new bstn(key, val));
-                ++_size;
-                break;
-            }
-        }
-        else
-        {
-            // Replace.
-            cur->_val = val;
-            break;
-        }
-    }
+        _lnr(n->_l, ser);
 
-    if (!cur)
-    {
-        // Empty.
-        _root.reset(new bstn(key, val));
-        ++_size;
+        ser.push_back(n->_key);
+
+        _lnr(n->_r, ser);
     }
 }
+
+void bst::rnl(serial &ser) const
+{
+    _rnl(_root, ser);
+}
+
+void bst::_rnl(const bstnp &n, serial &ser) const
+{
+    if (n)
+    {
+        _rnl(n->_r, ser);
+
+        ser.push_back(n->_key);
+
+        _rnl(n->_l, ser);
+    }
+}
+
+void bst::lrn(serial &ser) const
+{
+    _lrn(_root, ser);
+}
+
+void bst::_lrn(const bstnp &n, serial &ser) const
+{
+    if (n)
+    {
+        _lrn(n->_l, ser);
+
+        _lrn(n->_r, ser);
+
+        ser.push_back(n->_key);
+    }
+}
+
 } // namespace W
