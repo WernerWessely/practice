@@ -88,7 +88,7 @@ TEST_CASE("Test the DFS functions.")
         REQUIRE(lrn == W::bst::serial({1}));
     }
 
-    SECTION("1.")
+    SECTION("3.")
     {
         t.add(2);
         t.add(1);
@@ -103,5 +103,43 @@ TEST_CASE("Test the DFS functions.")
         REQUIRE(lnr == W::bst::serial({{1, 2, 3}}));
         REQUIRE(rnl == W::bst::serial({{3, 2, 1}}));
         REQUIRE(lrn == W::bst::serial({{1, 3, 2}}));
+    }
+
+    SECTION("5 list.")
+    {
+        t.add(1);
+        t.add(2);
+        t.add(3);
+        t.add(4);
+        t.add(5);
+
+        t.nlr(nlr);
+        t.lnr(lnr);
+        t.rnl(rnl);
+        t.lrn(lrn);
+
+        REQUIRE(nlr == W::bst::serial({{1, 2, 3, 4, 5}}));
+        REQUIRE(lnr == W::bst::serial({{1, 2, 3, 4, 5}}));
+        REQUIRE(rnl == W::bst::serial({{5, 4, 3, 2, 1}}));
+        REQUIRE(lrn == W::bst::serial({{5, 4, 3, 2, 1}}));
+    }
+
+    SECTION("5 tree.")
+    {
+        t.add(3);
+        t.add(2);
+        t.add(5);
+        t.add(1);
+        t.add(4);
+
+        t.nlr(nlr);
+        t.lnr(lnr);
+        t.rnl(rnl);
+        t.lrn(lrn);
+
+        REQUIRE(nlr == W::bst::serial({{3, 2, 1, 5, 4}}));
+        REQUIRE(lnr == W::bst::serial({{1, 2, 3, 4, 5}}));
+        REQUIRE(rnl == W::bst::serial({{5, 4, 3, 2, 1}}));
+        REQUIRE(lrn == W::bst::serial({{1, 2, 4, 5, 3}}));
     }
 }

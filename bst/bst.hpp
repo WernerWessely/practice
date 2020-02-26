@@ -57,6 +57,7 @@ private:
     void _rnl(const bstnp &n, serial &ser) const;
     void _nlr(const bstnp &n, serial &ser) const;
     void _lrn(const bstnp &n, serial &ser) const;
+    void _rrem(int key, bstnp &src, bstnp &dst);
 
     bstnp _root = nullptr;
 };

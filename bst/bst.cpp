@@ -155,4 +155,18 @@ void bst::_lrn(const bstnp &n, serial &ser) const
     }
 }
 
+void bst::rem(int key)
+{
+    // Remove by swapping with the in-order predecessor or successor,
+    // then removing that one.
+}
+
+void bst::_rrem(int key, bstnp &src, bstnp &dst)
+{
+    if (!src)
+    {
+        throw std::out_of_range("");
+    }
+}
+
 } // namespace W
