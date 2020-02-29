@@ -143,3 +143,64 @@ TEST_CASE("Test the DFS functions.")
         REQUIRE(lrn == W::bst::serial({{1, 2, 4, 5, 3}}));
     }
 }
+
+TEST_CASE("Test the rem() function.")
+{
+    W::bst t;
+    W::bst::serial order;
+
+    SECTION("Exc on empty.")
+    {
+        REQUIRE_THROWS_AS(t.rem(0), std::out_of_range);
+    }
+
+    SECTION("rem() on 1.")
+    {
+        t.add(1);
+
+        REQUIRE_THROWS_AS(t.rem(0), std::out_of_range);
+        t.rem(1);
+        REQUIRE(0 == t.depth());
+        REQUIRE(0 == t.size());
+    }
+
+    SECTION("rem() on 2.")
+    {
+        t.add(1);
+        t.add(2);
+
+        REQUIRE_THROWS_AS(t.rem(0), std::out_of_range);
+        t.rem(1);
+        REQUIRE(1 == t.depth());
+        REQUIRE(1 == t.size());
+        t.rem(2);
+        REQUIRE(0 == t.depth());
+        REQUIRE(0 == t.size());
+    }
+
+    SECTION("rem() on 3.")
+    {
+        t.add(2);
+        t.add(3);
+        t.add(1);
+
+        REQUIRE_THROWS_AS(t.rem(0), std::out_of_range);
+
+        t.rem(1);
+        REQUIRE(2 == t.depth());
+        REQUIRE(2 == t.size());
+        t.lnr(order);
+        REQUIRE(order == W::bst::serial({2, 3}));
+
+        t.rem(2);
+        REQUIRE(1 == t.depth());
+        REQUIRE(1 == t.size());
+        order.clear();
+        t.lnr(order);
+        REQUIRE(order == W::bst::serial({3}));
+
+        t.rem(3);
+        REQUIRE(0 == t.depth());
+        REQUIRE(0 == t.size());
+    }
+}

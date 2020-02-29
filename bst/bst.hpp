@@ -57,7 +57,9 @@ private:
     void _rnl(const bstnp &n, serial &ser) const;
     void _nlr(const bstnp &n, serial &ser) const;
     void _lrn(const bstnp &n, serial &ser) const;
-    void _rrem(int key, bstnp &src, bstnp &dst);
+    void _rem(bstnp &n, bstnp &p, int key);
+    bstn *_max(const bstnp &n, bstnp &par) const;
+    void _repl(bstnp &par, const bstnp &child, const bstnp &nchild);
 
     bstnp _root = nullptr;
 };

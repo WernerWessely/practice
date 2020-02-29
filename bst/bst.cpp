@@ -157,15 +157,68 @@ void bst::_lrn(const bstnp &n, serial &ser) const
 
 void bst::rem(int key)
 {
-    // Remove by swapping with the in-order predecessor or successor,
-    // then removing that one.
+    bstnp parent(nullptr);
+
+    _rem(_root, parent, key);
 }
 
-void bst::_rrem(int key, bstnp &src, bstnp &dst)
+bst::bstn *bst::_max(const bstnp &n, bstnp &par) const
 {
-    if (!src)
+    bstnp ret = n;
+
+    for (; ret->_r; par = ret, ret = ret->_r)
+        ;
+
+    return ret.get();
+}
+
+void bst::_repl(bstnp &par, const bstnp &child, const bstnp &nchild)
+{
+    if (par)
+    {
+        if (par->_l == child)
+        {
+            par->_l = nchild;
+        }
+        else
+        {
+            par->_r = nchild;
+        }
+    }
+    else
+    {
+        _root = nchild;
+    }
+}
+
+void bst::_rem(bstnp &n, bstnp &p, int key)
+{
+    if (!n)
     {
         throw std::out_of_range("");
+    }
+
+    if (key < n->_key)
+    {
+        _rem(n->_l, n, key);
+    }
+    else if (key > n->_key)
+    {
+        _rem(n->_r, n, key);
+    }
+    else
+    {
+        if (n->_l && n->_r)
+        {
+            bstnp par(nullptr);
+            bstnp pred(max(n->_l, par));
+            n->_key = pred->_key;
+            _rem(pred, par, key);
+        }
+        else
+        {
+            _repl(p, n, n->_l ? n->_l : n->_r);
+        }
     }
 }
 
