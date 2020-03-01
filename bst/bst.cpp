@@ -224,17 +224,12 @@ void bst::_rem(bstnp &n, bstnp &p, int key)
 
 void bst::bfs(serial &ser) const
 {
-    size_t level = 0;
-    bool cont = false;
-
-    do
-    {
-        cont = false;
-        _bfs(_root, level++, cont, ser);
-    } while (cont);
+    // Here we use iterative deepening depth first search (IDDFS).
+    for (size_t level = 0; _bfs(_root, level, ser); ++level)
+        ;
 }
 
-void bst::_bfs(const bstnp &cur, size_t level, bool &cont, serial &ser) const
+bool bst::_bfs(const bstnp &cur, size_t level, serial &ser) const
 {
     if (cur)
     {
@@ -242,15 +237,15 @@ void bst::_bfs(const bstnp &cur, size_t level, bool &cont, serial &ser) const
         {
             ser.push_back(cur->_key);
 
-            cont |= (cur->_l || cur->_r);
+            return (cur->_l || cur->_r);
         }
-        else
-        {
 
-            _bfs(cur->_l, level - 1, cont, ser);
-            _bfs(cur->_r, level - 1, cont, ser);
-        }
+        auto left = _bfs(cur->_l, level - 1, ser), right = _bfs(cur->_r, level - 1, ser);
+
+        return left || right;
     }
+
+    return false;
 }
 
 } // namespace W

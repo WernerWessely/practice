@@ -63,7 +63,7 @@ private:
     void _rem(bstnp &n, bstnp &p, int key);
     bstn *_max(const bstnp &n, bstnp &par) const;
     void _repl(bstnp &par, const bstnp &child, const bstnp &nchild);
-    void _bfs(const bstnp &cur, size_t level, bool &cont, serial &ser) const;
+    bool _bfs(const bstnp &cur, size_t level, serial &ser) const;
 
     bstnp _root = nullptr;
 };

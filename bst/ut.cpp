@@ -239,4 +239,27 @@ TEST_CASE("Test the bfs() function.")
         t.bfs(order);
         REQUIRE(order == W::bst::serial({2, 1, 3}));
     }
+
+    SECTION("bfs() on 3.")
+    {
+        t.add(1);
+        t.add(2);
+        t.add(3);
+        t.add(4);
+        t.bfs(order);
+        REQUIRE(order == W::bst::serial({1, 2, 3, 4}));
+    }
+
+    SECTION("bfs() on 7.")
+    {
+        t.add(4);
+        t.add(2);
+        t.add(6);
+        t.add(1);
+        t.add(3);
+        t.add(5);
+        t.add(7);
+        t.bfs(order);
+        REQUIRE(order == W::bst::serial({4, 2, 6, 1, 3, 5, 7}));
+    }
 }
