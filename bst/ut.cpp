@@ -263,3 +263,62 @@ TEST_CASE("Test the bfs() function.")
         REQUIRE(order == W::bst::serial({4, 2, 6, 1, 3, 5, 7}));
     }
 }
+
+TEST_CASE("Test the bfsq() function.")
+{
+    W::bst t;
+    W::bst::serial order;
+
+    SECTION("Empty.")
+    {
+        t.bfsq(order);
+        REQUIRE(order == W::bst::serial({}));
+    }
+
+    SECTION("bfsq() on 1.")
+    {
+        t.add(1);
+        t.bfsq(order);
+        REQUIRE(order == W::bst::serial({1}));
+    }
+
+    SECTION("bfsq() on 2.")
+    {
+        t.add(2);
+        t.add(1);
+        t.bfsq(order);
+        REQUIRE(order == W::bst::serial({2, 1}));
+    }
+
+    SECTION("bfsq() on 3.")
+    {
+        t.add(2);
+        t.add(1);
+        t.add(3);
+        t.bfsq(order);
+        REQUIRE(order == W::bst::serial({2, 1, 3}));
+    }
+
+    SECTION("bfsq() on 3.")
+    {
+        t.add(1);
+        t.add(2);
+        t.add(3);
+        t.add(4);
+        t.bfsq(order);
+        REQUIRE(order == W::bst::serial({1, 2, 3, 4}));
+    }
+
+    SECTION("bfsq() on 7.")
+    {
+        t.add(4);
+        t.add(2);
+        t.add(6);
+        t.add(1);
+        t.add(3);
+        t.add(5);
+        t.add(7);
+        t.bfsq(order);
+        REQUIRE(order == W::bst::serial({4, 2, 6, 1, 3, 5, 7}));
+    }
+}

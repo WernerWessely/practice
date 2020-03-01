@@ -1,4 +1,5 @@
 #include "bst.hpp"
+#include <queue>
 
 namespace W
 {
@@ -246,6 +247,31 @@ bool bst::_bfs(const bstnp &cur, size_t level, serial &ser) const
     }
 
     return false;
+}
+
+void bst::bfsq(serial &ser) const
+{
+    std::queue<bstnp> q;
+
+    if (_root)
+    {
+        q.push(_root);
+
+        while (q.size())
+        {
+            auto cur = q.front();
+            ser.push_back(cur->_key);
+            if (cur->_l)
+            {
+                q.push(cur->_l);
+            }
+            if (cur->_r)
+            {
+                q.push(cur->_r);
+            }
+            q.pop();
+        }
+    }
 }
 
 } // namespace W
