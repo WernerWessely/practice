@@ -38,6 +38,9 @@ public:
     //bfs - breadth first search - non-queue.
     void bfs(serial &ser) const;
 
+    //bfs with queue.
+    void bfsq(serial &ser) const;
+
 private:
     struct bstn;
     typedef std::shared_ptr<bstn> bstnp;
@@ -60,6 +63,7 @@ private:
     void _rem(bstnp &n, bstnp &p, int key);
     bstn *_max(const bstnp &n, bstnp &par) const;
     void _repl(bstnp &par, const bstnp &child, const bstnp &nchild);
+    void _bfs(const bstnp &cur, size_t level, bool &cont, serial &ser) const;
 
     bstnp _root = nullptr;
 };

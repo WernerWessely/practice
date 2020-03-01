@@ -204,3 +204,39 @@ TEST_CASE("Test the rem() function.")
         REQUIRE(0 == t.size());
     }
 }
+
+TEST_CASE("Test the bfs() function.")
+{
+    W::bst t;
+    W::bst::serial order;
+
+    SECTION("Empty.")
+    {
+        t.bfs(order);
+        REQUIRE(order == W::bst::serial({}));
+    }
+
+    SECTION("bfs() on 1.")
+    {
+        t.add(1);
+        t.bfs(order);
+        REQUIRE(order == W::bst::serial({1}));
+    }
+
+    SECTION("bfs() on 2.")
+    {
+        t.add(2);
+        t.add(1);
+        t.bfs(order);
+        REQUIRE(order == W::bst::serial({2, 1}));
+    }
+
+    SECTION("bfs() on 3.")
+    {
+        t.add(2);
+        t.add(1);
+        t.add(3);
+        t.bfs(order);
+        REQUIRE(order == W::bst::serial({2, 1, 3}));
+    }
+}

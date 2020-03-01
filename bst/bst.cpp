@@ -222,4 +222,35 @@ void bst::_rem(bstnp &n, bstnp &p, int key)
     }
 }
 
+void bst::bfs(serial &ser) const
+{
+    size_t level = 0;
+    bool cont = false;
+
+    do
+    {
+        cont = false;
+        _bfs(_root, level++, cont, ser);
+    } while (cont);
+}
+
+void bst::_bfs(const bstnp &cur, size_t level, bool &cont, serial &ser) const
+{
+    if (cur)
+    {
+        if (!level)
+        {
+            ser.push_back(cur->_key);
+
+            cont |= (cur->_l || cur->_r);
+        }
+        else
+        {
+
+            _bfs(cur->_l, level - 1, cont, ser);
+            _bfs(cur->_r, level - 1, cont, ser);
+        }
+    }
+}
+
 } // namespace W
