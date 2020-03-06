@@ -16,6 +16,11 @@ void deplist::add_edge(size_t from, size_t to, size_t weight)
 
 std::vector<size_t> deplist::bfs(size_t from) const
 {
+    if (from >= _n)
+    {
+        throw std::out_of_range("");
+    }
+
     std::vector<size_t> ret;
     std::vector<bool> vis(_n);
     std::queue<size_t> next;
@@ -40,6 +45,35 @@ std::vector<size_t> deplist::bfs(size_t from) const
     }
 
     return ret;
+}
+
+std::vector<size_t> deplist::dfs(size_t from) const
+{
+    if (from >= _n)
+    {
+        throw std::out_of_range("");
+    }
+
+    std::vector<size_t> ret;
+    std::vector<bool> vis(_n);
+
+    _dfs(from, ret, vis);
+
+    return ret;
+}
+
+void deplist::_dfs(size_t from, std::vector<size_t> &ret, std::vector<bool> &vis) const
+{
+    vis[from] = true;
+    ret.push_back(from);
+
+    for (auto tmp = _heads[from]; tmp; tmp = tmp->_next)
+    {
+        if (!vis[tmp->_to])
+        {
+            _dfs(tmp->_to, ret, vis);
+        }
+    }
 }
 
 } // namespace W

@@ -15,7 +15,6 @@ public:
     void add_edge(size_t from, size_t to, size_t weight);
 
     std::vector<size_t> bfs(size_t from) const;
-    std::vector<size_t> bfsq(size_t from) const;
 
     std::vector<size_t> dfs(size_t from) const;
 
@@ -33,6 +32,8 @@ private:
 
     size_t _n;
     std::unique_ptr<adjp[]> _heads;
+
+    void _dfs(size_t from, std::vector<size_t> &ret, std::vector<bool> &vis) const;
 };
 } // namespace W
 

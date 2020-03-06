@@ -13,7 +13,6 @@ public:
     void add_edge(size_t from, size_t to, size_t weight);
 
     std::vector<size_t> bfs(size_t from) const;
-    std::vector<size_t> bfsq(size_t from) const;
 
     std::vector<size_t> dfs(size_t from) const;
 
