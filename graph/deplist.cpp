@@ -16,7 +16,7 @@ void deplist::add_edge(size_t from, size_t to, size_t weight)
 
 std::vector<size_t> deplist::bfs(size_t from) const
 {
-    std::vector<size_t> ret(_n);
+    std::vector<size_t> ret;
     std::vector<bool> vis(_n);
     std::queue<size_t> next;
 

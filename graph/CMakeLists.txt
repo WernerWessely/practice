@@ -7,9 +7,9 @@ project(${TARGET_NAME} CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 
-add_executable(${TARGET_NAME} deplist.cpp ut.cpp)
+add_executable(${TARGET_NAME} graph.cpp deplist.cpp ut.cpp)
 
 target_link_libraries(${TARGET_NAME} ${CONAN_LIBS})
 
