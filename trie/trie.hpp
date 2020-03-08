@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <array>
 
 namespace W
 {
@@ -14,22 +15,29 @@ public:
 
     void rem(const std::string &key);
 
-    unsigned get(const std::string &key);
+    unsigned get(const std::string &key) const;
 
-    unsigned size() const;
+    size_t size() const;
 
 private:
     struct trien;
     typedef std::shared_ptr<trien> trienp;
+    typedef std::array<trienp, 'z' - 'a' + 1> trienpa;
     struct trien
     {
-        unsigned _val;
-        trienp _children['z' - 'a' + 1];
+        unsigned _val = 0;
+        bool _end = false;
+        trienpa _children;
     };
 
-    void _add(trienp &ch, const std::string &key, size_t index, unsigned val);
+    void _add(trienp &ch, const std::string &key, size_t next, unsigned val);
+    struct sizor
+    {
+        size_t _size = 0;
+        void operator()(const trienp &p);
+    };
 
-    trien _root;
+    trienpa _roots;
 };
 
 } // namespace W

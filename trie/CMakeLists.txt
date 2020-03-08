@@ -7,7 +7,7 @@ project(${TARGET_NAME} CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 
 add_executable(${TARGET_NAME} trie.cpp ut.cpp)
 
