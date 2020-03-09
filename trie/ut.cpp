@@ -3,6 +3,8 @@
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 
+#if 0
+
 TEST_CASE("Test the add() function.")
 {
     W::trie t;
@@ -47,3 +49,5 @@ TEST_CASE("Test the add() function.")
         REQUIRE(4 == t.get("today"));
     }
 }
+
+#endif
