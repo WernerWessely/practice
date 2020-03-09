@@ -31,6 +31,7 @@ private:
     };
 
     void _add(trienp &ch, const std::string &key, size_t next, unsigned val);
+    void _rem(trienp &ch, const std::string &key, size_t next);
     struct sizor
     {
         size_t _size = 0;

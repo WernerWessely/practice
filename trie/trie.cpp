@@ -43,7 +43,7 @@ void trie::sizor::operator()(const trienp &p)
             ++_size;
         }
 
-        std::for_each(p->_children.begin(), p->_children.end(), *this);
+        _size += std::for_each(p->_children.begin(), p->_children.end(), sizor())._size;
     }
 }
 
@@ -61,6 +61,32 @@ unsigned trie::get(const std::string &key) const
             }
 
             break;
+        }
+    }
+
+    throw std::out_of_range("");
+}
+
+void trie::rem(const std::string &key)
+{
+    _rem(_roots.at(key[0] - 'a'), key, 1);
+}
+
+void trie::_rem(trienp &ch, const std::string &key, size_t next)
+{
+    if (ch)
+    {
+        if (!key[next])
+        {
+            // End of word.
+            if (!ch->_end)
+            {
+                throw std::out_of_range("");
+            }
+        }
+        else
+        {
+            _rem(ch->_children.at(key[next]), key, next + 1);
         }
     }
 
