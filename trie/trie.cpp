@@ -9,7 +9,7 @@ void trie::add(const std::string &key, unsigned val)
     _add(_roots.at(key[0] - 'a'), key, 1, val);
 }
 
-void trie::_add(trienp &ch, const std::string &key, size_t next, unsigned val)
+bool trie::_add(trienp &ch, const std::string &key, size_t next, unsigned val)
 {
     trienp cur(ch ? ch : trienp(new trien()));
 
@@ -19,14 +19,16 @@ void trie::_add(trienp &ch, const std::string &key, size_t next, unsigned val)
         cur->_end = true;
         cur->_val = val;
     }
-    else
+    else if (_add(cur->_children.at(key[next] - 'a'), key, next + 1, val))
     {
-        _add(cur->_children.at(key[next] - 'a'), key, next + 1, val);
         ++cur->_nchildren;
     }
 
     // In case of an exception we roll back the add, so we assign at the end.
-    ch = cur;
+    std::swap(ch, cur);
+
+    // Return true if node was created.
+    return !cur;
 }
 
 size_t trie::size() const
@@ -73,7 +75,7 @@ void trie::rem(const std::string &key)
     _rem(_roots.at(key[0] - 'a'), key, 1);
 }
 
-void trie::_rem(trienp &ch, const std::string &key, size_t next)
+bool trie::_rem(trienp &ch, const std::string &key, size_t next)
 {
     if (ch)
     {
@@ -87,21 +89,26 @@ void trie::_rem(trienp &ch, const std::string &key, size_t next)
 
             ch->_end = false;
         }
-        else
+        else if (_rem(ch->_children.at(key[next] - 'a'), key, next + 1))
         {
-            _rem(ch->_children.at(key[next] - 'a'), key, next + 1);
             --ch->_nchildren;
         }
 
         if (!ch->_nchildren && !ch->_end)
         {
             ch.reset();
+
+            // Node was deleted.
+            return true;
         }
     }
     else
     {
         throw std::out_of_range("");
     }
+
+    // Node was not deleted.
+    return false;
 }
 
 } // namespace W

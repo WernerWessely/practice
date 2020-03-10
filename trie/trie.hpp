@@ -27,12 +27,12 @@ private:
     {
         unsigned _val = 0;
         bool _end = false;
-        size_t _nchildren;
+        size_t _nchildren = 0;
         trienpa _children;
     };
 
-    void _add(trienp &ch, const std::string &key, size_t next, unsigned val);
-    void _rem(trienp &ch, const std::string &key, size_t next);
+    bool _add(trienp &ch, const std::string &key, size_t next, unsigned val);
+    bool _rem(trienp &ch, const std::string &key, size_t next);
     struct sizor
     {
         size_t _size = 0;
