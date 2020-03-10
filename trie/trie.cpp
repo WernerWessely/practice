@@ -22,6 +22,7 @@ void trie::_add(trienp &ch, const std::string &key, size_t next, unsigned val)
     else
     {
         _add(cur->_children.at(key[next] - 'a'), key, next + 1, val);
+        ++cur->_nchildren;
     }
 
     // In case of an exception we roll back the add, so we assign at the end.
@@ -83,14 +84,24 @@ void trie::_rem(trienp &ch, const std::string &key, size_t next)
             {
                 throw std::out_of_range("");
             }
+
+            ch->_end = false;
         }
         else
         {
-            _rem(ch->_children.at(key[next]), key, next + 1);
+            _rem(ch->_children.at(key[next] - 'a'), key, next + 1);
+            --ch->_nchildren;
+        }
+
+        if (!ch->_nchildren && !ch->_end)
+        {
+            ch.reset();
         }
     }
-
-    throw std::out_of_range("");
+    else
+    {
+        throw std::out_of_range("");
+    }
 }
 
 } // namespace W

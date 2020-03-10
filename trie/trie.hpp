@@ -27,6 +27,7 @@ private:
     {
         unsigned _val = 0;
         bool _end = false;
+        size_t _nchildren;
         trienpa _children;
     };
 

@@ -47,3 +47,51 @@ TEST_CASE("Test the add() function.")
         REQUIRE(4 == t.get("today"));
     }
 }
+
+TEST_CASE("Test the rem() function.")
+{
+    W::trie t;
+
+    SECTION("Exc on rem() invalid")
+    {
+        REQUIRE_THROWS_AS(t.rem("4"), std::out_of_range);
+    }
+
+    SECTION("Exc on rem() invalid empty")
+    {
+        REQUIRE_THROWS_AS(t.rem("a"), std::out_of_range);
+    }
+
+    SECTION("Exc on rem() substr")
+    {
+        t.add("hello", 1);
+        REQUIRE_THROWS_AS(t.rem("hell"), std::out_of_range);
+    }
+
+    SECTION("rem() 1")
+    {
+        t.add("hello", 1);
+        t.rem("hello");
+        REQUIRE(0 == t.size());
+    }
+
+    SECTION("rem() substr")
+    {
+        t.add("hellothere", 1);
+        t.add("hello", 2);
+
+        t.rem("hello");
+
+        REQUIRE(1 == t.size());
+        REQUIRE(1 == t.get("hellothere"));
+
+        t.add("hello", 2);
+        t.rem("hellothere");
+
+        REQUIRE(1 == t.size());
+        REQUIRE(2 == t.get("hello"));
+
+        t.rem("hello");
+        REQUIRE(0 == t.size());
+    }
+}
