@@ -1,12 +1,12 @@
 #ifndef _MSORT_H_
 #define _MSORT_H_
 
-#include <vector>
+#include <cstddef>
 
 namespace W
 {
 
-std::vector<int> msort(const std::vector<int> &src);
+void msort(int arr[], size_t from, size_t to, int buffer[]);
 
 } // namespace W
 
