@@ -29,7 +29,7 @@ size_t partition(int arr[], size_t l, size_t h)
 
 void qsort(int arr[], size_t l, size_t h)
 {
-    if (h >= l)
+    if (l >= h)
     {
         // Sorted.
         return;

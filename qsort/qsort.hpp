@@ -3,11 +3,11 @@
 
 #include <cstddef>
 
-namespace W
+namespace w
 {
 
 void qsort(int arr[], size_t from, size_t to);
 
-} // namespace W
+} // namespace w
 
 #endif
