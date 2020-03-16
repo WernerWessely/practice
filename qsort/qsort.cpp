@@ -8,37 +8,37 @@ namespace w
 namespace
 {
 
-size_t partition(int arr[], size_t l, size_t h)
+size_t partition(int arr[], size_t begin, size_t end)
 {
-    auto firsthigh = l;
+    auto firsthigh = begin;
 
-    for (auto i = l; i < h; ++i)
+    for (auto i = begin; i < end - 1; ++i)
     {
-        if (arr[i] < arr[h])
+        if (arr[i] < arr[end - 1])
         {
             std::swap(arr[i], arr[firsthigh++]);
         }
     }
 
-    std::swap(arr[firsthigh], arr[h]);
+    std::swap(arr[firsthigh], arr[end - 1]);
 
     return firsthigh;
 }
 
 } // namespace
 
-void qsort(int arr[], size_t l, size_t h)
+void qsort(int arr[], size_t begin, size_t end)
 {
-    if (l >= h)
+    if (end - begin < 2)
     {
         // Sorted.
         return;
     }
 
-    const size_t p = partition(arr, l, h);
+    const size_t p = partition(arr, begin, end);
 
-    qsort(arr, l, p);
-    qsort(arr, p + 1, h);
+    qsort(arr, begin, p);
+    qsort(arr, p + 1, end);
 }
 
 } // namespace w

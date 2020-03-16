@@ -8,6 +8,6 @@ namespace w
 
 void qsort(int arr[], size_t from, size_t to);
 
-} // namespace w
+} // namespace W
 
 #endif
