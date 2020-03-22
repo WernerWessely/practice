@@ -1,7 +1,5 @@
 #include "bsearch.hpp"
 
-#include <algorithm>
-
 namespace w
 {
 

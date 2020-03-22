@@ -1,8 +1,6 @@
 #ifndef _BSEARCH_H_
 #define _BSEARCH_H_
 
-#include <cstddef>
-
 namespace w
 {
 
