@@ -1,11 +1,12 @@
 
+#include "vector.h"
+
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
-#include "wv.hpp"
 
-TEST_CASE("Test the size() function.", "[base]")
+TEST_CASE("Test the size() function.")
 {
-    W::wv v;
+    w::vector v;
 
     SECTION("size() is 0 after construction.")
     {
@@ -43,9 +44,9 @@ TEST_CASE("Test the size() function.", "[base]")
     }
 }
 
-TEST_CASE("Test the empty() function.", "[base]")
+TEST_CASE("Test the empty() function.")
 {
-    W::wv v;
+    w::vector v;
 
     SECTION("empty() is true after construction.")
     {
@@ -66,9 +67,9 @@ TEST_CASE("Test the empty() function.", "[base]")
     }
 }
 
-TEST_CASE("Test the reverse() function.", "[base]")
+TEST_CASE("Test the reverse() function.")
 {
-    W::wv v;
+    w::vector v;
 
     SECTION("reverse() on empty.")
     {
