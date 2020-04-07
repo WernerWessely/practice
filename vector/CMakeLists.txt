@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE Debug)
 
-add_executable(${TARGET_NAME} wv.cpp ut.cpp)
+add_executable(${TARGET_NAME} vector.cpp ut.cpp)
 
 target_link_libraries(${TARGET_NAME} ${CONAN_LIBS})
 
