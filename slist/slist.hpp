@@ -3,25 +3,27 @@
 
 #include <cstddef>
 
-namespace W
+namespace w
 {
 class slist
 {
 public:
-    slist() = default;
+    slist();
     ~slist();
 
     slist(const slist &other) = delete;
     slist &operator=(const slist &other) = delete;
 
     // Get length.
-    size_t len() const;
+    int len() const;
     // Get if empty.
     bool empty() const;
     // Insert item at front.
-    void prepend(int value);
+    void prepend(int val);
     // Insert at back.
-    void append(int value);
+    void append(int val);
+
+#if 0
     // Get with index.
     int at(size_t index) const;
     // Get value at front.
@@ -42,21 +44,19 @@ public:
     int backnr(size_t n) const;
     // Reverse the list.
     void reverse();
+#endif
 
 private:
-    struct snode
+    struct slistn
     {
-        snode(int val, snode *next) : _val(val),
-                                      _next(next) {}
-
+        slistn(int val, slistn *next = nullptr) : _val(val), _next(next) {}
         int _val;
-        snode *_next;
+        slistn *_next;
     };
 
-    const snode *_backnr(size_t &l, size_t n, const snode *node) const;
-
-    snode *_first = nullptr;
+    slistn *_root;
 };
-} // namespace W
+
+} // namespace w
 
 #endif

@@ -1,270 +1,55 @@
 #include "slist.hpp"
-#include <stdexcept>
 
-namespace W
+namespace w
 {
+
+slist::slist() : _root(nullptr) {}
 
 slist::~slist()
 {
-    while (_first)
+    while (_root)
     {
-        auto next = _first->_next;
-        delete _first;
-        _first = next;
+        slistn *next = _root->_next;
+        delete _root;
+        _root = next;
     }
 }
 
-size_t slist::len() const
+int slist::len() const
 {
-    size_t len = 0;
+    int ret;
 
-    for (auto n = _first; n; n = n->_next, ++len)
+    for (slistn *next = _root; next; ++ret, next = next->_next)
         ;
 
-    return len;
+    return ret;
 }
 
 bool slist::empty() const
 {
-    return !!!_first;
+    return !_root;
 }
 
-void slist::prepend(int value)
+void slist::prepend(int val)
 {
-    insert(0, value);
+    _root = new slistn(val, _root ? _root->_next : nullptr);
 }
 
-void slist::append(int value)
+void slist::append(int val)
 {
-    auto cur = _first;
-    snode *n = new snode(value, nullptr);
-
-    for (; cur && cur->_next; cur = cur->_next)
-        ;
-
-    if (!cur)
+    if (!_root)
     {
-        _first = n;
+        _root = new slistn(val);
     }
     else
     {
-        cur->_next = n;
+        slistn *prev = _root;
+
+        for (; prev->_next; prev = prev->_next)
+            ;
+
+        prev->_next = new slistn(val);
     }
 }
 
-void slist::insert(size_t index, int value)
-{
-    snode *cur = _first, *prev = nullptr;
-    size_t len = 0;
-
-    for (; cur && len < index; prev = cur, cur = cur->_next, ++len)
-        ;
-
-    if (index > len)
-    {
-        throw std::out_of_range("");
-    }
-
-    // cur is null if empty or if append.
-    snode *node = new snode(value, cur);
-
-    if (!len)
-    {
-        _first = node;
-    }
-    else
-    {
-        prev->_next = node;
-    }
-}
-
-int slist::at(size_t index) const
-{
-    size_t i = 0;
-
-    for (auto n = _first; n; n = n->_next, ++i)
-    {
-        if (i == index)
-        {
-            return n->_val;
-        }
-    }
-
-    throw std::out_of_range("");
-}
-
-int slist::front() const
-{
-    if (!_first)
-    {
-        throw std::out_of_range("");
-    }
-
-    return _first->_val;
-}
-
-int slist::back() const
-{
-    auto cur = _first;
-
-    for (; cur && cur->_next; cur = cur->_next)
-        ;
-
-    if (!cur)
-    {
-        throw std::out_of_range("");
-    }
-
-    return cur->_val;
-}
-
-int slist::pop_front()
-{
-    if (!_first)
-    {
-        throw std::out_of_range("");
-    }
-
-    auto ret = _first->_val;
-    auto del = _first;
-
-    _first = _first->_next;
-
-    delete del;
-
-    return ret;
-}
-
-int slist::pop_back()
-{
-    snode *cur = _first, *prev = nullptr;
-
-    for (; cur && cur->_next; prev = cur, cur = cur->_next)
-        ;
-
-    if (!cur)
-    {
-        throw std::out_of_range("");
-    }
-
-    auto ret = cur->_val;
-
-    if (prev)
-    {
-        prev->_next = nullptr;
-    }
-    else
-    {
-        _first = nullptr;
-    }
-
-    delete cur;
-
-    return ret;
-}
-
-void slist::remove(size_t index)
-{
-    snode *cur = _first, *prev = nullptr;
-
-    for (size_t len = 0; cur && len < index; prev = cur, cur = cur->_next, ++len)
-        ;
-
-    if (!cur)
-    {
-        throw std::out_of_range("");
-    }
-
-    if (prev)
-    {
-        prev->_next = cur->_next;
-    }
-    else
-    {
-        _first = cur->_next;
-    }
-
-    delete cur;
-}
-
-int slist::backn(size_t n) const
-{
-    const size_t l = len();
-
-    if (n >= l)
-    {
-        throw std::out_of_range("");
-    }
-
-    const size_t index = l - n - 1;
-    auto cur = _first;
-
-    for (size_t i = 0; i < index; cur = cur->_next, ++i)
-        ;
-
-    return cur->_val;
-}
-
-int slist::backnr(size_t n) const
-{
-    const snode *cur = _first;
-    size_t l = 0;
-
-    if (cur)
-    {
-        ++l;
-
-        if (cur->_next)
-        {
-            cur = _backnr(++l, n, cur->_next);
-        }
-    }
-
-    if (n >= l)
-    {
-        throw std::out_of_range("");
-    }
-
-    if (!cur)
-    {
-        cur = _first;
-    }
-
-    return cur->_val;
-}
-
-const slist::snode *slist::_backnr(size_t &l, size_t n, const slist::snode *node) const
-{
-    const auto cur_len = l;
-
-    const snode *const next = node->_next ? _backnr(++l, n, node->_next) : nullptr;
-
-    if (next)
-    {
-        // Already found the one.
-        return next;
-    }
-
-    if (n < l && cur_len == l - n)
-    {
-        // This is the one.
-        return node;
-    }
-
-    return nullptr;
-}
-
-void slist::reverse()
-{
-    snode *prev = _first, *cur = _first ? _first->_next : nullptr;
-
-    while (cur)
-    {
-        prev->_next = cur->_next;
-        cur->_next = _first;
-        _first = cur;
-        cur = prev->_next;
-    }
-}
-
-} // namespace W
+} // namespace w
