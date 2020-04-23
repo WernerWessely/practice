@@ -1,5 +1,7 @@
 #include "slist.hpp"
 
+#include <stdexcept>
+
 namespace w
 {
 
@@ -17,7 +19,7 @@ slist::~slist()
 
 int slist::len() const
 {
-    int ret;
+    int ret = 0;
 
     for (slistn *next = _root; next; ++ret, next = next->_next)
         ;
@@ -32,7 +34,7 @@ bool slist::empty() const
 
 void slist::prepend(int val)
 {
-    _root = new slistn(val, _root ? _root->_next : nullptr);
+    _root = new slistn(val, _root);
 }
 
 void slist::append(int val)
@@ -50,6 +52,21 @@ void slist::append(int val)
 
         prev->_next = new slistn(val);
     }
+}
+
+int slist::at(int index) const
+{
+    int i = 0;
+
+    for (slistn *tmp = _root; tmp; tmp = tmp->_next, ++i)
+    {
+        if (i == index)
+        {
+            return tmp->_val;
+        }
+    }
+
+    throw std::out_of_range("");
 }
 
 } // namespace w

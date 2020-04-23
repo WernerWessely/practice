@@ -3,21 +3,64 @@
 #include <catch2/catch.hpp>
 #include "slist.hpp"
 
-namespace w
+TEST_CASE("Test append()")
 {
+    w::slist l;
 
-slist::slist() : _root(nullptr) {}
-
-slist::~slist()
-{
-    while (_root)
+    SECTION("append() 1")
     {
-        slistn *tmp = _root->_next;
+        REQUIRE(0 == l.len());
+        REQUIRE(l.empty());
 
-        delete _root;
+        l.append(1);
 
-        _root = tmp;
+        REQUIRE(1 == l.at(0));
+        REQUIRE(1 == l.len());
+        REQUIRE(!l.empty());
+    }
+
+    SECTION("append() 2")
+    {
+        REQUIRE(0 == l.len());
+        REQUIRE(l.empty());
+
+        l.append(1);
+        l.append(2);
+
+        REQUIRE(1 == l.at(0));
+        REQUIRE(2 == l.at(1));
+        REQUIRE(2 == l.len());
+        REQUIRE(!l.empty());
     }
 }
 
-} // namespace w
+TEST_CASE("Test prepend()")
+{
+    w::slist l;
+
+    SECTION("prepend() 1")
+    {
+        REQUIRE(0 == l.len());
+        REQUIRE(l.empty());
+
+        l.prepend(1);
+
+        REQUIRE(1 == l.at(0));
+        REQUIRE(1 == l.len());
+        REQUIRE(!l.empty());
+    }
+
+    SECTION("prepend() 2")
+    {
+        REQUIRE(0 == l.len());
+        REQUIRE(l.empty());
+
+        l.prepend(1);
+        l.prepend(2);
+
+        REQUIRE(2 == l.at(0));
+        REQUIRE(1 == l.at(1));
+        REQUIRE(2 == l.len());
+        REQUIRE(!l.empty());
+    }
+}
