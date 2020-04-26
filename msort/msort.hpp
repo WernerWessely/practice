@@ -1,13 +1,22 @@
 #ifndef _MSORT_H_
 #define _MSORT_H_
 
-#include <cstddef>
-
-namespace W
+namespace w
 {
 
-void msort(int arr[], size_t from, size_t to, int buffer[]);
+// On a list:
+struct node
+{
+    node(int val, node *next = nullptr) : _val(val), _next(next) {}
+    int _val;
+    node *_next;
+};
 
-} // namespace W
+node *msort(node *l);
+
+// On an array:
+void msort(int arr[], int from, int to, int buffer[]);
+
+} // namespace w
 
 #endif
